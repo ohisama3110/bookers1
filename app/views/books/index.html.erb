@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+   <p id="notice"></p>
+   <h1>Books</h1>
+
+   <style>
+  .link {
+    margin-right: 10px;
+  }
+   </style>
+
+   <table>
+    <thead>
+     <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th colspan="3"></th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+     <% @books.each do |book| %>
+      <div class="book">
+       <td><%= book.title %></td>
+       <td><%= book.body %></td>
+       <td><%= link_to "show", "/books/#{book.id}", class: "link" %></td>
+       <td><%= link_to "edit", edit_book_path(book), class: "link" %></td>
+       <td><%= link_to "Destroy", book_path(book), method: :delete, "date-confirm" => "Are you sure?", class: "link" %></td>
+      </div>
+     </tr>
+     <% end %>
+    </tbody>
+   </table>
+
+  <h1>New book</h1>
+  <% if @book.errors.any? %>
+   <ul>
+    <% @book.errors.full_messages.each do |message| %>
+     <li><%= message %></li>
+    <% end %>
+   </ul>
+  <% end %>
+  <%= form_with model: @book do |f| %>
+    <h4>title</h4>
+    <%= f.text_field :title, name: 'book[title]' %>
+    <h4>body</h4>
+    <%= f.text_area :body %>
+    <%= f.submit 'Create Book' %>
+  <% end %>
+</body>
+</html>
